@@ -42,7 +42,7 @@ void DisableMouseAcceleration() {
 
 
 void drw_txt() {
-    std::cout << "Fortnite Optimization\n";
+    std::cout << "Pc Optimizer\n";
     DoSpacesinConsole(5);
     std::cout << "1.Change powerplan\n";
     DoSpacesinConsole(1);
