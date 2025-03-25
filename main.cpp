@@ -6,6 +6,9 @@
 #include <string>
 #pragma comment(lib, "powrprof.lib")
 #include "powerplansetter.h"
+void ClearConsole() {
+    system("cls");
+}
 
 void DoSpacesinConsole(int HowManySpaces) {
     for (int i = 1; i <= HowManySpaces; ++i) {
@@ -13,10 +16,42 @@ void DoSpacesinConsole(int HowManySpaces) {
     }
 }
 
-
-void ClearConsole() {
-    system("cls"); 
+void drw_txt() {
+    std::cout << "Pc Optimization\n";
+    DoSpacesinConsole(5);
+    std::cout << "1.Change powerplan\n";
+    DoSpacesinConsole(1);
+    std::cout << "2.Mouse Settings for a litle bit better aim\n";
+    DoSpacesinConsole(1);
+    std::cout << "3.Disable GameDvr\n";
 }
+
+
+bool SetRegistryValue(HKEY hKeyRoot, LPCSTR subKey, LPCSTR valueName, DWORD data) {
+    HKEY hKey;
+    LONG result = RegCreateKeyExA(hKeyRoot, subKey, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_SET_VALUE, NULL, &hKey, NULL);
+
+    if (result != ERROR_SUCCESS) {
+        std::cerr << "Failed to open/create registry key: " << subKey << " Error: " << result << std::endl;
+        ClearConsole();
+        drw_txt();
+        
+    }
+
+    result = RegSetValueExA(hKey, valueName, 0, REG_DWORD, (const BYTE*)&data, sizeof(DWORD));
+    RegCloseKey(hKey);
+
+    if (result != ERROR_SUCCESS) {
+        std::cerr << "Failed to set registry value: " << valueName << " Error: " << result << std::endl;
+        ClearConsole();
+        drw_txt();
+    }
+}
+
+
+
+
+
 
 
 void DisableMouseAcceleration() {
@@ -41,13 +76,7 @@ void DisableMouseAcceleration() {
 
 
 
-void drw_txt() {
-    std::cout << "Pc Optimizer\n";
-    DoSpacesinConsole(5);
-    std::cout << "1.Change powerplan\n";
-    DoSpacesinConsole(1);
-    std::cout << "2.Mouse Settings for a litle bit better aim\n";
-}
+
 
 int main() {
     int input;
